@@ -42,6 +42,5 @@
     },
     "extra": {
         "contao-manager-plugin": "Imi\\YoastSeoForContao\\ContaoManager\\Plugin"
-    },
-    "version": "1.0"
+    }
 }
