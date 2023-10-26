@@ -2,16 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of Yoast SEO for Contao.
- *
- * (c) iMi digital GmbH 2023 <digital-dev@imi.de>
- * @license GPL-3.0-or-later
- * For the full copyright and license information,
- * please view the LICENSE file that was distributed with this source code.
- * @link https://github.com/imi/yoast-seo-for-contao
- */
-
 namespace Imi\YoastSeoForContao;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -34,7 +24,6 @@ class ImiYoastSeoForContao extends Bundle
 
     public function loadDataKeywordAttribute($varValue, \DataContainer $dc)
     {
-        // Den aktuellen Artikel basierend auf der pid des Inhaltelements holen
         $objArticle = \ArticleModel::findByPk($dc->activeRecord->pid);
 
         $strKeyword = '';

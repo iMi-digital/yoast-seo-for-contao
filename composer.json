@@ -1,6 +1,6 @@
 {
     "name": "imi/yoast-seo-for-contao",
-    "description": "Erweitert das Contao Backend um YoastSEO.js",
+    "description": "Extends the Contao backend with the YoastSEO.js plugin",
     "keywords": [
         "contao",
         "bundle",

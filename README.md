@@ -7,4 +7,4 @@ For this, an input field named keyword gets created under the edit view of the P
 And then on each text content field you get a display of the Yoast SEO results.
 
 ## Example
-![Preview of the Contao admin panel](doc/preview.png) 
+![Preview of the Contao admin panel](doc/preview.png)

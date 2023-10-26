@@ -2,7 +2,6 @@
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
-// Felddefinition
 $GLOBALS['TL_DCA']['tl_page']['fields']['keyword'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_page']['keyword'],
     'exclude'   => true,
