@@ -1,0 +1,47 @@
+{
+    "name": "imi/yoast-seo-for-contao",
+    "description": "Erweitert das Contao Backend um YoastSEO.js",
+    "keywords": [
+        "contao",
+        "bundle",
+        "tag 3",
+        "tag 4"
+    ],
+    "type": "contao-bundle",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "iMi digital GmbH",
+            "email": "digital-dev@imi.de",
+            "homepage": "http://www.imi-digital.de",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/imi/yoast-seo-for-contao/issues",
+        "source": "https://github.com/imi/yoast-seo-for-contao"
+    },
+    "require": {
+        "php": "^8.1",
+        "contao/core-bundle": "^4.13 || ^5.0"
+    },
+    "require-dev": {
+        "contao/manager-plugin": "^2.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "Imi\\YoastSeoForContao\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": false,
+            "contao/manager-plugin": false,
+            "contao-community-alliance/composer-plugin": true
+        }
+    },
+    "extra": {
+        "contao-manager-plugin": "Imi\\YoastSeoForContao\\ContaoManager\\Plugin"
+    },
+    "version": "1.0"
+}
