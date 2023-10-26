@@ -34,10 +34,8 @@ class ImiYoastSeoForContao extends Bundle
             }
         }
         
-        if (TL_MODE == 'BE') {
-            $GLOBALS['TL_MOOTOOLS'][] = '<script>window.yoastKeyword = '.json_encode($strKeyword).';</script>';
-            $GLOBALS['TL_MOOTOOLS'][] = '<script type="module" src="bundles/imiyoastseoforcontao/assets/index.js"></script>';
-        }
+        $GLOBALS['TL_MOOTOOLS'][] = '<script>window.yoastKeyword = '.json_encode($strKeyword).';</script>';
+        $GLOBALS['TL_MOOTOOLS'][] = '<script type="module" src="bundles/imiyoastseoforcontao/assets/index.js"></script>';
         
         return $varValue;
     }
