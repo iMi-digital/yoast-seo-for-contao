@@ -1,36 +1,44 @@
 import {AnalysisWorkerWrapper, createWorker, Paper} from "yoastseo";
 
-// `url` needs to be the full URL to the script for the browser to know where to load the worker script from.
-// This should be the script created by the previous code-snippet.
-
-const worker = new AnalysisWorkerWrapper(new Worker(
-    new URL('./webworker', import.meta.url),
-    {type: 'module'}
-));
-
-console.debug('YoastSeo loaded');
-
 if (typeof tinymce !== "undefined") {
+    const keyword_fields = ["ctrl_keyword" , "ctrl_keyword_translated"];
+    const field = keyword_fields.find((field) => document.getElementById(field) != null);
+    if (field) {
+        const keyword_field = document.getElementById(field);
+        window.yoastKeyword = keyword_field.value;
+        keyword_field.addEventListener("keyup", function () {
+            window.yoastKeyword = this.value;
+        });
+    }
+
     tinymce.on('SetupEditor', function (event) {
         const editor = event.editor;
-        const text_field_set = document.getElementById("pal_text_legend");
-        text_field_set.innerHTML += "<div><ul id=\"resultsList\" class=\"widget\" style=\"list-style: none; padding-top: 5px;\"></ul></div>";
+        const worker = new AnalysisWorkerWrapper(new Worker(
+            new URL('./webworker', import.meta.url),
+            {type: 'module'}
+        ));
 
-        yoastSEO(editor);
-        editor.on("keyup", function (event2) {
-            yoastSEO(editor);
+        editor.on('init', function() {
+            const results_list = document.createElement("ul");
+            results_list.style.padding = "10px 0";
+            results_list.classList.add("widget");
+            editor.getContainer().insertAdjacentElement('afterend', results_list);
+
+            yoastSEO(worker, editor, results_list);
+            editor.on("keyup", function () {
+                yoastSEO(worker, editor, results_list);
+            });
         });
     });
 }
 
-function yoastSEO(editor) {
+function yoastSEO(worker, editor, results_list) {
     worker.initialize({
         locale: "de_DE",
         contentAnalysisActive: true,
         keywordAnalysisActive: true,
         logLevel: "ERROR",
     }).then(() => {
-        // The worker has been configured, we can now analyze a Paper.
         const paper = new Paper(editor.getContent(), {
             keyword: window.yoastKeyword,
             locale: "de_DE"
@@ -39,17 +47,16 @@ function yoastSEO(editor) {
         return worker.analyze(paper);
     }).then((results) => {
         const data = results;
-        const olElement = document.getElementById('resultsList');
-        olElement.innerHTML = "";
+        results_list.innerHTML = "";
 
         // Iterate over readability results
         let h2 = document.createElement('h2');
         h2.innerHTML = "Readability (Yoast)";
         h2.style.paddingTop = "5px";
-        olElement.appendChild(h2);
+        results_list.appendChild(h2);
         for (const result of data.result.readability.results) {
             if (result.text) { // Only add if there's text to show
-                resultElement(olElement, result);
+                resultElement(results_list, result);
             }
         }
 
@@ -57,10 +64,10 @@ function yoastSEO(editor) {
         h2 = document.createElement('h2');
         h2.innerHTML = "SEO (Yoast)";
         h2.style.paddingTop = "5px";
-        olElement.appendChild(h2);
+        results_list.appendChild(h2);
         for (const result of data.result.seo[""].results) {
-            if (result.text && result._identifier !== "titleWidth" && result._identifier !== "metaDescriptionLength") {
-                resultElement(olElement, result);
+            if (result.text && result._identifier !== "titleWidth" && result._identifier !== "metaDescriptionLength" && !(window.yoastKeyword == "" && result._identifier === "keyphraseLength")) {
+                resultElement(results_list, result);
             }
         }
 
@@ -70,7 +77,7 @@ function yoastSEO(editor) {
     });
 }
 
-function resultElement(olElement, result) {
+function resultElement(results_list, result) {
     const li = document.createElement('li');
     let color;
 
@@ -85,5 +92,5 @@ function resultElement(olElement, result) {
     }
 
     li.innerHTML = "<span style='font-weight: bold; font-size: 2em; vertical-align: middle; color:" + color + ";'>&#8226;</span> " + result.text;
-    olElement.appendChild(li);
+    results_list.appendChild(li);
 }

@@ -18,8 +18,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/imi/yoast-seo-for-contao/issues",
-        "source": "https://github.com/imi/yoast-seo-for-contao"
+        "issues": "https://github.com/iMi-digital/yoast-seo-for-contao/issues",
+        "source": "https://github.com/iMi-digital/yoast-seo-for-contao"
     },
     "require": {
         "php": "^8.1",
